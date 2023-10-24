@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { fetchCityWeather, WeatherResponseProps } from './api/fetchCity'
-import { getStoredCities, setStoredCities } from './api/storage'
+import { fetchCityWeather, WeatherResponseProps, OptionsProps } from './api/fetchCity'
+import { getStoredCities, getStoredOptions, setStoredCities, setStoredOptions } from './api/storage'
+import CityCard from './components/CityCard'
 
 function App() {
   const [cityName, setCityName] = useState('')
   const [cities, setCities] = useState<WeatherResponseProps[]>([])
+  const [option, setOption] = useState<OptionsProps>('metric')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -14,7 +16,7 @@ function App() {
     setError('')
     setCityName('')
     setLoading(true)
-    fetchCityWeather(cityName)
+    fetchCityWeather(cityName, option)
     .then((data) => {
       if(cities.length > 3) {
         setError('You can only add 4 cities')
@@ -40,19 +42,28 @@ function App() {
     getStoredCities().then((data: WeatherResponseProps[]) => {
       setCities(data)
     })
+
+    getStoredOptions().then((data) => {
+      setOption(data)
+    })
   }, []);
 
 
 
   useEffect(() => {
-    chrome.storage.sync.set({ cities: cities });
-  }, [cities])
+    chrome.storage.sync.set({ cities, option });
+    setStoredOptions(option)
+  }, [cities, option])
 
   return (
     <>
       <form onSubmit={(e) => getCityWeather(e)}>
         <input type="text" placeholder="City name" name="cityName" value={cityName} onChange={(e) => setCityName(e.target.value)} />
         <button type='submit' disabled={cityName === ''}>Search</button>
+        <select name="option" value={option} onChange={(e) => setOption(e.target.value as OptionsProps)}>
+          <option value="metric">Celsius</option>
+          <option value="imperial">Fahrenheit</option>
+        </select>
       </form>
       {
         loading && (
@@ -62,15 +73,9 @@ function App() {
         )
       }
       {
-        cities.map(city => {
-          const { id, name } = city
-          return (
-            <div key={id}>
-              <h1>{name}</h1>
-              <button onClick={() => handleDelete(id)}>Remove</button>
-            </div>
-          )
-        })
+        cities.map(city => (
+          <CityCard city={city}  option={option} handleDelete={handleDelete} />
+        ))
       }
       {
         !!error && (
