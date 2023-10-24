@@ -46,8 +46,10 @@ export interface WeatherResponseProps {
   cod: number;
 }
 
-export const fetchCityWeather = async (cityName: string): Promise<WeatherResponseProps> => {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}`;
+export type OptionsProps = 'metric' | 'imperial';
+
+export const fetchCityWeather = async (cityName: string, option: string): Promise<WeatherResponseProps> => {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=${option}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}`;
   
   try {
     const response = await fetch(url);
