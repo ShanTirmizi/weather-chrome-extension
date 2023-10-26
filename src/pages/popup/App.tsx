@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { fetchCityWeather, WeatherResponseProps, OptionsProps } from '../../api/fetchCity'
-import { getStoredCities, getStoredOptions, setStoredCities, setStoredOptions } from '../../api/storage'
+import { fetchCityWeather, WeatherResponseProps } from '../../api/fetchCity'
+import { getStoredCities, getStoredOptions, setStoredCities, setStoredOptions, LocalStorageOptions } from '../../api/storage'
 import CityCard from '../../components/CityCard'
 
 function App() {
   const [cityName, setCityName] = useState('')
   const [cities, setCities] = useState<WeatherResponseProps[]>([])
-  const [option, setOption] = useState<OptionsProps>('metric')
+  const [option, setOption] = useState<LocalStorageOptions>({
+    tempScale: 'metric'
+  })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -55,12 +57,14 @@ function App() {
     setStoredOptions(option)
   }, [cities, option])
 
+  if (!option) return <p>Loading...</p>
+
   return (
     <>
       <form onSubmit={(e) => getCityWeather(e)}>
         <input type="text" placeholder="City name" name="cityName" value={cityName} onChange={(e) => setCityName(e.target.value)} />
         <button type='submit' disabled={cityName === ''}>Search</button>
-        <select name="option" value={option} onChange={(e) => setOption(e.target.value as OptionsProps)}>
+        <select name="option" value={option.tempScale} onChange={(e) => setOption({ ...option, tempScale: e.target.value } as LocalStorageOptions)}>
           <option value="metric">Celsius</option>
           <option value="imperial">Fahrenheit</option>
         </select>

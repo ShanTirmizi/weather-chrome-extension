@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { fetchCityWeather, WeatherResponseProps, OptionsProps } from '../../api/fetchCity'
+import { fetchCityWeather, WeatherResponseProps } from '../../api/fetchCity'
+import { LocalStorageOptions } from '../../api/storage'
 
 interface CityCardProps {
   city: WeatherResponseProps
-  option: OptionsProps
+  option: LocalStorageOptions
   handleDelete: (id: number) => void
 }
 const CityCard: React.FC<CityCardProps> = ({city, option, handleDelete}) => {
