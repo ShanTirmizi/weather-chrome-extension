@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { fetchCityWeather, WeatherResponseProps, OptionsProps } from './api/fetchCity'
-import { getStoredCities, getStoredOptions, setStoredCities, setStoredOptions } from './api/storage'
-import CityCard from './components/CityCard'
+import { fetchCityWeather, WeatherResponseProps, OptionsProps } from '../../api/fetchCity'
+import { getStoredCities, getStoredOptions, setStoredCities, setStoredOptions } from '../../api/storage'
+import CityCard from '../../components/CityCard'
 
 function App() {
   const [cityName, setCityName] = useState('')
