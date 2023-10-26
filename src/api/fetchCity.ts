@@ -1,3 +1,5 @@
+import { LocalStorageOptions } from "./storage";
+
 export interface WeatherResponseProps {
   coord: {
     lon: number;
@@ -48,8 +50,8 @@ export interface WeatherResponseProps {
 
 export type OptionsProps = 'metric' | 'imperial';
 
-export const fetchCityWeather = async (cityName: string, option: string): Promise<WeatherResponseProps> => {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=${option}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}`;
+export const fetchCityWeather = async (cityName: string, option: LocalStorageOptions): Promise<WeatherResponseProps> => {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=${option.tempScale}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}`;
   
   try {
     const response = await fetch(url);
