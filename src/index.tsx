@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import Popup from './App';
+import './index.css';
 
 
 function init() {
