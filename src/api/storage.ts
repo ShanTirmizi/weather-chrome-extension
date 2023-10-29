@@ -2,6 +2,7 @@ import { OptionsProps, WeatherResponseProps } from "./fetchCity";
 
 export interface LocalStorageProps {
   cities?: WeatherResponseProps[]
+  defaultCity?: WeatherResponseProps
   options?: LocalStorageOptions
 }
 
@@ -9,7 +10,7 @@ export type LocalStorageKey = keyof LocalStorageProps;
 
 export interface LocalStorageOptions {
   tempScale: OptionsProps;
-
+  defaultCity?: string;
 }
 
 export const setStoredCities = (cities: WeatherResponseProps[]): Promise<void> => {
@@ -20,6 +21,28 @@ export const setStoredCities = (cities: WeatherResponseProps[]): Promise<void> =
     chrome.storage.local.set(vals, () => {
       resolve();
     });
+  });
+}
+
+export const setDefaultStoredCity = (city: WeatherResponseProps): Promise<void> => {
+  const vals: LocalStorageProps = {
+    defaultCity: city,
+  };
+  return new Promise((resolve) => {
+    chrome.storage.local.set(vals, () => {
+      resolve();
+    });
+  });
+}
+
+export const getStoredDefaultCity = (): Promise<WeatherResponseProps> => {
+  const keys: LocalStorageKey[] = ['defaultCity'];
+
+  return new Promise((resolve) => {
+    chrome.storage.local.get(keys, (result: LocalStorageProps) => {
+      resolve(result.defaultCity || {} as WeatherResponseProps);
+    });
+
   });
 }
 
