@@ -6,6 +6,11 @@
     "default_popup": "src/pages/popup/index.html"
   },
   "options_page": "src/pages/options/index.html",
-  "permissions": ["storage"]
+  "permissions": ["storage"],
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  }
 
 }

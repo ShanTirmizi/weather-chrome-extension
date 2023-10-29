@@ -82,21 +82,23 @@ function App() {
       </form>
       {
         loading && (
-          <div className="bg-yellow-200 p-4 rounded-lg mt-2">
+          <div className="bg-yellow-300 p-4 rounded-lg mt-2">
             <h1 className="text-center">Loading...</h1>
           </div>
         )
       }
       {
         !!error && (
-          <div className="bg-yellow-200 p-4 rounded-lg mt-2">
+          <div className="bg-yellow-300 p-4 rounded-lg mt-2">
             <h1 className="text-center">{error}</h1>
           </div>
         )
       }
       {
         cities.map(city => (
-          <CityCard city={city}  option={option} handleDelete={handleDelete} />
+          <div className="bg-yellow-300 p-4 rounded-lg mt-2">
+            <CityCard city={city}  option={option} handleDelete={handleDelete} />
+          </div>
         ))
       }
     </>
