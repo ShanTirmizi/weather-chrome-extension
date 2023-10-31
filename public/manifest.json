@@ -3,9 +3,14 @@
   "name": "Weather project",
   "version": "1.0.0",
   "action": {
-    "default_popup": "src/index.html"
+    "default_popup": "src/pages/popup/index.html"
   },
-  "options_page": "src/options/index.html",
-  "permissions": ["storage"]
+  "options_page": "src/pages/options/index.html",
+  "permissions": ["storage"],
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  }
 
 }

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { fetchCityWeather, WeatherResponseProps, OptionsProps } from '../../api/fetchCity'
+import { fetchCityWeather, WeatherResponseProps } from '../../api/fetchCity'
+import { LocalStorageOptions } from '../../api/storage'
 
 interface CityCardProps {
   city: WeatherResponseProps
-  option: OptionsProps
+  option: LocalStorageOptions
   handleDelete: (id: number) => void
 }
 const CityCard: React.FC<CityCardProps> = ({city, option, handleDelete}) => {
@@ -22,11 +23,16 @@ const CityCard: React.FC<CityCardProps> = ({city, option, handleDelete}) => {
   if(!cityData) return null
 
   return (
-    <div>
-    <h1>{cityData.name}</h1>
-    <p>{cityData.main.temp}°</p>
-    <button onClick={() => handleDelete(cityData.id)}>Remove</button>
-  </div>
+    <div className='text-black'>
+      <h1>{cityData.name}</h1>
+      <p>{cityData.main.temp}°{option.tempScale === 'metric' ? 'C' : 'F' }</p>
+      <button
+        onClick={() => handleDelete(cityData.id)}
+        className='bg-black text-yellow-300 p-2 rounded-md cursor-pointer mt-1.5'
+      >
+        Remove
+      </button>
+    </div>
   )
 }
 
